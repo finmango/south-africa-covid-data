@@ -1,3 +1,7 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+# required libraries
 import requests
 import csv
 import json
@@ -47,7 +51,6 @@ def municipleData():
 
 			except:
 				print("ERROR with municiple")
-			#print(json.dumps(sub_modified_data, indent=4, sort_keys=False))
 
 def provinceData():
 	count = 0
@@ -58,9 +61,6 @@ def provinceData():
 	data_json = json.loads(response.text)
 	date_of_collection = data_json["start"]
 	modifed_data = data_json["series"]
-	#sub_modified_data = modifed_data[0]["data"]
-	#print(json.dumps(sub_modified_data, indent=4, sort_keys=False))
-	#print(len(modifed_data))
 
 	while(count < len(modifed_data)):
 			try:
