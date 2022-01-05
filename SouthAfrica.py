@@ -45,7 +45,7 @@ def municipleData():
 				municiple_name = modifed_data[count]["name"]
 
 				municiple_csv = pd.DataFrame(sub_modified_data, columns = ['ID', 'Cases'])
-				municiple_csv.to_csv(f'municiple_data/{municiple_name}.csv')
+				municiple_csv.to_csv(f'data/municiple_data/{municiple_name}.csv')
 
 				count+=1
 
@@ -71,7 +71,7 @@ def provinceData():
 				province_name = modifed_data[count]["name"]
 
 				province_csv = pd.DataFrame(sub_modified_data, columns = ['ID', 'Cases'])
-				province_csv.to_csv(f'province_data/{province_name}.csv')
+				province_csv.to_csv(f'data/province_data/{province_name}.csv')
 
 				count+=1
 
@@ -83,7 +83,7 @@ def provinceData():
 
 
 def main():
-	createFolders()
+	#createFolders() only nessecary if running code on own computer
 	municipleData()
 	provinceData()
 
