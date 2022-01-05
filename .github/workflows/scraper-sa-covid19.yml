@@ -1,1 +1,6 @@
+name: scraper-south-africa-covid19
+
+on:
+	schedule:
+		- cron: '* * * * *' # 
 
