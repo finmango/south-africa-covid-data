@@ -24,7 +24,7 @@ def municipleData():
 	url1 = "https://nmclist.nicd.ac.za/App_JSON/DashProvincialCumulativeTests_"
 	url2 = ".json?v=2025"
 
-	while(url_index < 10):
+	for url_index in range(1,10):
 		try:
 			#iterates through json webpages
 			count = 0
@@ -36,7 +36,9 @@ def municipleData():
 			url_index+=1
 		except:
 			print("ERROR")
-		while(count < len(modifed_data)):
+			
+		max_pages = len(modified_data) + 1
+		for count in range(0,max_pages):
 			try:
 				#parsed info starting from count
 				sub_modified_data = modifed_data[count]["data"]
@@ -61,8 +63,9 @@ def provinceData():
 	data_json = json.loads(response.text)
 	date_of_collection = data_json["start"]
 	modifed_data = data_json["series"]
-
-	while(count < len(modifed_data)):
+	
+	max_pages = len(modified_data) + 1
+	for count in range(0,max_pages):
 			try:
 				#parsed info starting from count
 				sub_modified_data = modifed_data[count]["data"]
