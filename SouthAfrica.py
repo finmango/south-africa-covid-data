@@ -33,21 +33,19 @@ def municipleData():
 		response = requests.get(url)
 		data_json = json.loads(response.text)
 		date_of_collection = data_json["start"]
-		modifed_data = data_json["series"]
+		modified_data = data_json["series"]
 		url_index+=1
 			
-		max_pages = len(modified_data) + 1
+		max_pages = len(modified_data)
 		for count in range(0,max_pages):
 			#parsed info starting from count
-			sub_modified_data = modifed_data[count]["data"]
+			sub_modified_data = modified_data[count]["data"]
 
 			#parses name info from count
-			municiple_name = modifed_data[count]["name"]
+			municiple_name = modified_data[count]["name"]
 
 			municiple_csv = pd.DataFrame(sub_modified_data, columns = ['ID', 'Cases'])
 			municiple_csv.to_csv(f'data/municiple_data/{municiple_name}.csv')
-
-			count+=1
 
 def provinceData():
 	count = 0
@@ -57,20 +55,18 @@ def provinceData():
 	response = requests.get(url)
 	data_json = json.loads(response.text)
 	date_of_collection = data_json["start"]
-	modifed_data = data_json["series"]
+	modified_data = data_json["series"]
 	
-	max_pages = len(modified_data) + 1
+	max_pages = len(modified_data)
 	for count in range(0,max_pages):
 		#parsed info starting from count
-		sub_modified_data = modifed_data[count]["data"]
+		sub_modified_data = modified_data[count]["data"]
 
 		#parses name info from count
-		province_name = modifed_data[count]["name"]
+		province_name = modified_data[count]["name"]
 
 		province_csv = pd.DataFrame(sub_modified_data, columns = ['ID', 'Cases'])
 		province_csv.to_csv(f'data/province_data/{province_name}.csv')
-
-		count+=1
 
 def main():
 	#createFolders() only nessecary if running code on own computer
