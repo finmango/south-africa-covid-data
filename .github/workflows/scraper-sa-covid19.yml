@@ -2,7 +2,7 @@ name: scraper-south-africa-covid19
 
 on:
   schedule:
-    - cron: '0-59 * * * *' # time of update may change depending on when the datasets are updated
+    - cron: '50-60 * * * *' # time of update may change depending on when the datasets are updated
 
 jobs:
   build:
@@ -43,5 +43,4 @@ jobs:
         uses: ad-m/github-push-action@v0.6.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: gh-pages
-          folder: data
+          branch: main #change to gh-pages
