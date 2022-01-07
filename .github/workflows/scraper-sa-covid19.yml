@@ -2,12 +2,18 @@ name: scraper-south-africa-covid19
 
 on:
   schedule:
-    - cron: '0 0,8,16 * * *' # time of update may change depending on when the datasets are updated
+    - cron: '0-59 * * * *' # time of update may change depending on when the datasets are updated
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+    
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
 
       - name: checkout repo content
         uses: actions/checkout@v2 #
@@ -25,12 +31,6 @@ jobs:
       - name: execute py script
         run: |
           python3 SouthAfrica.py
-          
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./public
 
       - name: commit files
         run: |
