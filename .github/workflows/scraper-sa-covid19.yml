@@ -2,7 +2,7 @@ name: scraper-south-africa-covid19
 
 on:
   schedule:
-    - cron: '0 0,3,12 * * *' # time of update may change depending on when the datasets are updated
+    - cron: '0-20 * * * *' # time of update may change depending on when the datasets are updated
 
 jobs:
   build:
