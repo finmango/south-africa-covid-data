@@ -53,18 +53,23 @@ def municipleData():
 				name_list = f.read()
 				modified_list = json.loads(name_list)
 			municiple_code = modified_list.get(municiple_name)
-			municiple_csv = pd.DataFrame(sub_modified_data, columns = ['ID', 'Cases'])
+
+			#creates list of IDs and Cases
+			ID = []
+			Cases = []
+			Date = []
+			previous_days = 0
+			for pair in sub_modified_data:
+				ID.append(pair[0])
+				Cases.append(pair[1])
+				Date.append(str(datetime.date.today() - datetime.timedelta(previous_days)))
+				previous_days+=1
+			Date.reverse()
+			municiple_csv = pd.DataFrame({'Date': Date, 'ID': ID, 'Cases': Cases})
 
 			#inverts data so that it begins from most recent cumulative data instead of starting from case 1
 			municiple_csv = municiple_csv.sort_values(by=['Cases'], ascending=False)
-
-			#adds row to top with municiple code and name
-			new_row = pd.DataFrame({'ID': [municiple_code], 'Cases': [municiple_name]})
-			municiple_csv = pd.concat([new_row, municiple_csv]).reset_index(drop=True)
-
 			municiple_csv.to_csv(f'data/municiple_data/{municiple_code}.csv', index=False)
-
-			#print(municiple_name)
 
 def provinceData():
 	count = 0
@@ -76,9 +81,11 @@ def provinceData():
 	date_of_collection = data_json['start']
 	modified_data = data_json['series']
 
-	#converts timestamp to iso format
+	#converts timestamp of the day the data was updated to iso format
 	date_obj = datetime.datetime.strptime(date_of_collection, "%Y-%m-%d %H:%M:%S")
 	iso_date = date_obj.isoformat()
+
+	#print(iso_date)
 	
 	max_pages = len(modified_data)
 	for count in range(0,max_pages):
@@ -93,28 +100,33 @@ def provinceData():
 			name_list = f.read()
 			modified_list = json.loads(name_list)
 		province_code = modified_list.get(province_name)
-		province_csv = pd.DataFrame(sub_modified_data, columns = ['ID', 'Cases'])
+		
+		#creates list of IDs and Cases
+		ID = []
+		Cases = []
+		Date = []
+		previous_days = 0
+		for pair in sub_modified_data:
+			ID.append(pair[0])
+			Cases.append(pair[1])
+			Date.append(str(datetime.date.today() - datetime.timedelta(previous_days)))
+			previous_days+=1
+		Date.reverse()
+		province_csv = pd.DataFrame({'Date': Date, 'ID': ID, 'Cases': Cases})
 
 		#inverts data so that it begins from most recent cumulative data instead of starting from case 1
 		province_csv = province_csv.sort_values(by=['Cases'], ascending=False)
-
-		#adds row to top with province code and name
-		new_row = pd.DataFrame({'ID': [province_code], 'Cases': [province_name]})
-		province_csv = pd.concat([new_row, province_csv]).reset_index(drop=True)
-
 		province_csv.to_csv(f'data/province_data/{province_code}.csv', index=False)
-
-		#print(province_name)
 
 def joinFiles():
 	joined_municiple_files = os.path.join('data/municiple_data', '*.csv')
 	joined_municiple_list = glob.glob(joined_municiple_files)
-	total_municiple_info = pd.concat(map(pd.read_csv, joined_municiple_list), ignore_index=True, axis=1) 
+	total_municiple_info = pd.concat(map(pd.read_csv, joined_municiple_list), ignore_index=True, axis=0) 
 	total_municiple_info.to_csv('data/total_info/total_municiple_info.csv', index=False)
 
 	joined_province_files = os.path.join('data/province_data', '*.csv')
 	joined_province_list = glob.glob(joined_province_files)
-	total_province_info = pd.concat(map(pd.read_csv, joined_province_list), ignore_index=True, axis=1)
+	total_province_info = pd.concat(map(pd.read_csv, joined_province_list), ignore_index=True, axis=0)
 	total_province_info.to_csv('data/total_info/total_province_info.csv', index=False)
 
 def main():
