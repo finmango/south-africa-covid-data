@@ -28,7 +28,7 @@
 "Umzinyathi": "KZN-DC24",
 "Uthukela": "KZN-DC23",
 "Zululand": "KZN-DC26",
-"Capricorn": "LP-DC36",
+"Capricorn": "LP-DC35",
 "Mopani": "LP-DC33",
 "Sekhukhune": "LP-DC47",
 "Vhembe": "LP-DC34",
