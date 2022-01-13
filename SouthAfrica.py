@@ -40,6 +40,14 @@ def municipleData():
 		modified_data = data_json['series']
 		url_index+=1
 			
+		current_date = date_of_collection[0:10]
+		utc_date_today = datetime.date.today()
+
+		#compares dates to make sure/correct south africa time to UTC
+		#also resolves issue with comparing datetime object with str
+		if(current_date != str(utc_date_today)):
+			utc_date_today = utc_date_today - datetime.timedelta(1)
+
 		max_pages = len(modified_data)
 		for count in range(0,max_pages):
 			#parsed info starting from count
@@ -62,7 +70,7 @@ def municipleData():
 			for pair in sub_modified_data:
 				ID.append(pair[0])
 				Cases.append(pair[1])
-				Date.append(str(datetime.date.today() - datetime.timedelta(previous_days)))
+				Date.append(str(utc_date_today - datetime.timedelta(previous_days)))
 				previous_days+=1
 			Date.reverse()
 			municiple_csv = pd.DataFrame({'Date': Date, 'ID': ID, 'Cases': Cases})
@@ -79,14 +87,17 @@ def provinceData():
 	response = requests.get(url)
 	data_json = json.loads(response.text)
 	date_of_collection = data_json['start']
+
 	modified_data = data_json['series']
 
-	#converts timestamp of the day the data was updated to iso format
-	date_obj = datetime.datetime.strptime(date_of_collection, "%Y-%m-%d %H:%M:%S")
-	iso_date = date_obj.isoformat()
+	current_date = date_of_collection[0:10]
+	utc_date_today = datetime.date.today()
 
-	#print(iso_date)
-	
+	#compares dates to make sure/correct south africa time to UTC
+	#also resolves issue with comparing datetime object with str
+	if(current_date != str(utc_date_today)):
+		utc_date_today = utc_date_today - datetime.timedelta(1)
+		
 	max_pages = len(modified_data)
 	for count in range(0,max_pages):
 		#parsed info starting from count
@@ -109,7 +120,7 @@ def provinceData():
 		for pair in sub_modified_data:
 			ID.append(pair[0])
 			Cases.append(pair[1])
-			Date.append(str(datetime.date.today() - datetime.timedelta(previous_days)))
+			Date.append(str(utc_date_today - datetime.timedelta(previous_days)))
 			previous_days+=1
 		Date.reverse()
 		province_csv = pd.DataFrame({'Date': Date, 'ID': ID, 'Cases': Cases})
