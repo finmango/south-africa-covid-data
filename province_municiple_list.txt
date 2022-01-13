@@ -1,7 +1,7 @@
 {
 "Alfred Nzo": "EC-DC44",
 "Amathole": "EC-DC12",
-"Buffalo City Metro": "EC-DCBUF",
+"Buffalo City Metro": "EC-BUF",
 "Chris Hani": "EC-DC13",
 "Joe Gqabi": "EC-DC14",
 "Nelson Mandela Bay Metro": "EC-NMA",
